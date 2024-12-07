@@ -1,4 +1,4 @@
-public class Employee extends Person {
+class Employee extends Person {
     private int employeeID;
     private int salary;
 

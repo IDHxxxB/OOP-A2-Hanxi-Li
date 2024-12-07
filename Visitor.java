@@ -1,4 +1,4 @@
-public class Visitor extends Person{
+class Visitor extends Person{
     private boolean isMembership;
     public int visitCount;
 
