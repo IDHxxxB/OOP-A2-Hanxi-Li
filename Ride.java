@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 interface RideInterface {
     void addVisitorToQueue(Visitor visitor);
     void removeVisitorFromQueue(Visitor visitor);
@@ -9,23 +12,23 @@ interface RideInterface {
     void printRideHistory();
 }
 
-abstract class Ride implements RideInterface {
+class Ride implements RideInterface {
     private String rideName;
     private Employee operator;
-    private int heightRestriction;
+    private String heightRestriction;
     private int capacity;
 
-    private java.util.ArrayList<Visitor> waitingQueue = new java.util.ArrayList<>();
+    private Queue<Visitor> waitingQueue = new LinkedList<>();
     private java.util.ArrayList<Visitor> rideHistory = new java.util.ArrayList<>();
 
     public Ride() {
 
     }
 
-    public Ride(String rideName, Employee operator, int minAge, int capacity) {
+    public Ride(String rideName, Employee operator, String heightRestriction, int capacity) {
         this.rideName = rideName;
         this.operator = operator;
-        this.heightRestriction = minAge;
+        this.heightRestriction = heightRestriction;
         this.capacity = capacity;
     }
 
@@ -45,11 +48,11 @@ abstract class Ride implements RideInterface {
         this.operator = operator;
     }
 
-    public int getHeightRestriction() {
+    public String getHeightRestriction() {
         return heightRestriction;
     }
 
-    public void setHeightRestriction(int heightRestriction) {
+    public void setHeightRestriction(String heightRestriction) {
         this.heightRestriction = heightRestriction;
     }
 
@@ -67,7 +70,7 @@ abstract class Ride implements RideInterface {
             waitingQueue.add(visitor);
             System.out.println(visitor.getName() + " added to the waiting queue.");
         } else {
-            System.out.println(visitor.getName() + " is not added to the waiting queue.");
+            System.out.println("Unable to add.");
         }
     }
 
@@ -76,13 +79,13 @@ abstract class Ride implements RideInterface {
         if (waitingQueue.remove(visitor)) {
             System.out.println(visitor.getName() + " removed from the waiting queue.");
         } else {
-            System.out.println(visitor.getName() + " was not in the waiting queue.");
+            System.out.println("Unable to remove.");
         }
     }
 
     @Override
     public void printQueue() {
-        System.out.println("The visitors in the waiting queue are:");
+        System.out.println("Visitors in the waiting queue:");
         for (Visitor visitor : waitingQueue) {
             System.out.println(visitor.getName());
         }
@@ -99,7 +102,7 @@ abstract class Ride implements RideInterface {
             rideHistory.add(visitor);
             System.out.println(visitor.getName() + " added to the ride history.");
         } else {
-            System.out.println(visitor.getName() + " is not added to the ride history.");
+            System.out.println("Unable to add.");
         }
     }
 
