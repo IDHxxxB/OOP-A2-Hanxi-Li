@@ -1,5 +1,8 @@
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.Collections;
+import java.util.Comparator;
 
 interface RideInterface {
     void addVisitorToQueue(Visitor visitor);
@@ -108,19 +111,49 @@ class Ride implements RideInterface {
 
     @Override
     public boolean checkVisitorFromHistory(Visitor visitor) {
-        return rideHistory.contains(visitor);
+        boolean found = rideHistory.contains(visitor);
+        if (found) {
+            System.out.println(visitor.getName() + " found in the ride history.");
+        } else {
+            System.out.println("Unable to find.");
+        }
+        return found;
     }
 
     @Override
     public int numberOfVisitors() {
-        return waitingQueue.size();
+        int size = rideHistory.size();
+        if (size > 0) {
+            System.out.println("Number of visitors in the ride history: " + size);
+        } else {
+            System.out.println("No visitors in the ride history.");
+        }
+        return size;
     }
 
     @Override
     public void printRideHistory() {
+        Iterator<Visitor> iterator = rideHistory.iterator();
         System.out.println("Ride history:");
-        for (Visitor visitor : rideHistory) {
+        while (iterator.hasNext()) {
+            Visitor visitor = iterator.next();
             System.out.println(visitor.getName());
         }
+    }
+
+    public void sortRideHistory() {
+        Collections.sort(rideHistory, new VisitorComparator());
+        System.out.println("Successful sorting ride history.");
+    }
+}
+
+class VisitorComparator implements Comparator<Visitor> {
+    @Override
+    public int compare(Visitor v1, Visitor v2) {
+        int nameCompare = v1.getName().compareTo(v2.getName());
+        if (nameCompare != 0) {
+            return nameCompare;
+        }
+        return Integer.compare(v1.getAge(), v2.getAge());
     }
 }
