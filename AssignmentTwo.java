@@ -1,12 +1,11 @@
 public class AssignmentTwo {
     public static void main(String[] args) {
         AssignmentTwo a2 = new AssignmentTwo();
-        a2.partFourA();
-        a2.partFourB();
+        a2.partFive();
     }
 
     public void partThree() {
-        Ride ride1 = new Ride("Kansas Twister", new Employee("Hanson", 23, "12345678", 101, 5000), "Height less than 95cm and more than 205cm", 40);
+        Ride ride1 = new Ride("Kansas Twister", new Employee("Hanson", 23, "12345678", 101, 5000), "Height less than 95cm and more than 205cm", 40, 0);
         Visitor visitor1 = new Visitor("Alice", 20, "22345671", false, 1);
         Visitor visitor2 = new Visitor("John", 18, "22345672", false, 1);
         Visitor visitor3 = new Visitor("Jack", 24, "22345673", true, 5);
@@ -25,7 +24,7 @@ public class AssignmentTwo {
     }
 
     public void partFourA() {
-        Ride ride2 = new Ride("Wild West Falls Adventure Ride", new Employee("Quinn", 27, "22345678", 102, 7000), "Height less than 95cm", 30);
+        Ride ride2 = new Ride("Wild West Falls Adventure Ride", new Employee("Quinn", 27, "22345678", 102, 7000), "Height less than 95cm", 30, 0);
         Visitor visitor6 = new Visitor("Billy", 24, "22345676", true, 3);
         Visitor visitor7 = new Visitor("Ford", 28, "22345677", false, 1);
         Visitor visitor8 = new Visitor("Ethan", 26, "22345678", false, 2);
@@ -44,7 +43,7 @@ public class AssignmentTwo {
     }
 
     public void partFourB() {
-        Ride ride3 = new Ride("Hollywood Stunt Driver 2", new Employee("Elon", 21, "32345678", 103, 4500), "No restriction", 80);
+        Ride ride3 = new Ride("Hollywood Stunt Driver 2", new Employee("Elon", 21, "32345678", 103, 4500), "No restriction", 80, 0);
         Visitor visitor11 = new Visitor("Nora", 19, "22345682", true, 4);
         Visitor visitor12 = new Visitor("Zoe", 23, "22345683", true, 1);
         Visitor visitor13 = new Visitor("Luna", 29, "22345684", false, 1);
@@ -63,7 +62,39 @@ public class AssignmentTwo {
     }
 
     public void partFive() {
+        Ride ride4 = new Ride("Sylvester And Tweety Cages", new Employee("Betty", 29, "42345678", 104, 3000), "No restriction", 8, 0);
 
+        Visitor visitor16 = new Visitor("Louis", 6, "22345687", false, 1);
+        Visitor visitor17 = new Visitor("Jesse", 8, "22345688", false, 1);
+        Visitor visitor18 = new Visitor("Mike", 10, "22345689", false, 1);
+        Visitor visitor19 = new Visitor("Sawyer", 14, "22345690", false, 1);
+        Visitor visitor20 = new Visitor("Jane", 40, "22345691", false, 1);
+        Visitor visitor21 = new Visitor("Peggy", 38, "22345692", true, 4);
+        Visitor visitor22 = new Visitor("Angela", 7, "22345693", true, 3);
+        Visitor visitor23 = new Visitor("Klaus", 12, "22345694", false, 1);
+        Visitor visitor24 = new Visitor("Nate", 38, "22345695", false, 1);
+        Visitor visitor25 = new Visitor("Bonnie", 4, "22345696", false, 1);
+
+        ride4.addVisitorToQueue(visitor16);
+        ride4.addVisitorToQueue(visitor17);
+        ride4.addVisitorToQueue(visitor18);
+        ride4.addVisitorToQueue(visitor19);
+        ride4.addVisitorToQueue(visitor20);
+        ride4.addVisitorToQueue(visitor21);
+        ride4.addVisitorToQueue(visitor22);
+        ride4.addVisitorToQueue(visitor23);
+        ride4.addVisitorToQueue(visitor24);
+        ride4.addVisitorToQueue(visitor25);
+
+        System.out.println("\nBefore running the ride:");
+        ride4.printQueue();
+
+        ride4.runOneCycle();
+
+        System.out.println("\nAfter running the ride:");
+        ride4.printQueue();
+
+        ride4.printRideHistory();
     }
 
     public void partSix() {

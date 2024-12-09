@@ -19,7 +19,8 @@ class Ride implements RideInterface {
     private String rideName;
     private Employee operator;
     private String heightRestriction;
-    private int capacity;
+    private int maxRider;
+    private int numOfCycles;
 
     private Queue<Visitor> waitingQueue = new LinkedList<>();
     private java.util.ArrayList<Visitor> rideHistory = new java.util.ArrayList<>();
@@ -28,11 +29,15 @@ class Ride implements RideInterface {
 
     }
 
-    public Ride(String rideName, Employee operator, String heightRestriction, int capacity) {
+    public Ride(String rideName, Employee operator, String heightRestriction, int maxRider, int numOfCycles) {
+        if (maxRider < 1) {
+            throw new IllegalArgumentException("maxRider must be at least 1.");
+        }
         this.rideName = rideName;
         this.operator = operator;
         this.heightRestriction = heightRestriction;
-        this.capacity = capacity;
+        this.maxRider = maxRider;
+        this.numOfCycles = numOfCycles;
     }
 
     public String getRideName() {
@@ -59,12 +64,20 @@ class Ride implements RideInterface {
         this.heightRestriction = heightRestriction;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getMaxRider() {
+        return maxRider;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setMaxRider(int maxRider) {
+        this.maxRider = maxRider;
+    }
+
+    public int getNumOfCycles() {
+        return numOfCycles;
+    }
+
+    public void setNumOfCycles(int numOfCycles) {
+        this.numOfCycles = numOfCycles;
     }
 
     @Override
@@ -96,7 +109,26 @@ class Ride implements RideInterface {
 
     @Override
     public void runOneCycle() {
-        System.out.println("The ride" + rideName + " is running one cycle.");
+        if (operator == null) {
+            System.out.println("There is no ride operator.");
+            return;
+        }
+
+        if (waitingQueue.isEmpty()) {
+            System.out.println("The queue is empty.");
+            return;
+        }
+
+        int riders = 0;
+        while (riders < maxRider && !waitingQueue.isEmpty()) {
+            Visitor visitor = waitingQueue.poll();
+            addVisitorToHistory(visitor);
+            riders++;
+        }
+
+        numOfCycles++;
+        System.out.println(rideName + " is running one cycle.");
+        System.out.println(numOfCycles + " cycles were found.");
     }
 
     @Override
