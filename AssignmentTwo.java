@@ -1,7 +1,8 @@
 public class AssignmentTwo {
     public static void main(String[] args) {
         AssignmentTwo a2 = new AssignmentTwo();
-        a2.partFive();
+        a2.partSix();
+        a2.partSeven();
     }
 
     public void partThree() {
@@ -98,10 +99,25 @@ public class AssignmentTwo {
     }
 
     public void partSix() {
+        Ride ride5 = new Ride("Star Parade", new Employee("Kim", 42, "52345678", 105, 6000), "No restriction", 20, 0);
 
+        ride5.addVisitorToHistory(new Visitor("Fido", 21, "1423451", true, 7));
+        ride5.addVisitorToHistory(new Visitor("Bella", 18, "1423452", true, 3));
+        ride5.addVisitorToHistory(new Visitor("Charlie", 23, "1423453", false, 1));
+        ride5.addVisitorToHistory(new Visitor("Max", 25, "1423454", false, 1));
+        ride5.addVisitorToHistory(new Visitor("Lucy", 30, "1423455", false, 2));
+
+        ride5.exportRideHistory("RideHistory.csv");
     }
 
     public void partSeven() {
+        Ride ride = new Ride("Imported Ride", new Employee("Operator", 30, "111", 111, 1000), "No restriction", 20, 0);
 
+        String filename = "RideHistory.csv";
+        ride.importRideHistory(filename);
+
+        ride.numberOfVisitors();
+
+        ride.printRideHistory();
     }
 }

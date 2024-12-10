@@ -3,6 +3,7 @@ import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Collections;
 import java.util.Comparator;
+import java.io.*;
 
 interface RideInterface {
     void addVisitorToQueue(Visitor visitor);
@@ -177,6 +178,80 @@ class Ride implements RideInterface {
         Collections.sort(rideHistory, new VisitorComparator());
         System.out.println("Successful sorting ride history.");
     }
+
+    public void exportRideHistory(String filename) {
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(filename));
+
+            for (Visitor visitor : rideHistory) {
+                String visitorDetails = visitor.getName() + "," + visitor.getAge() + ","
+                        + visitor.getPhoneNum() + "," + visitor.getIsMembership() + ","
+                        + visitor.getVisitCount();
+                writer.write(visitorDetails);
+                writer.newLine();
+            }
+            System.out.println("Successful export.");
+        } catch (IOException e) {
+            System.err.println("Error writing file: " + e.getMessage());
+        } finally {
+            try {
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Error closing file: " + e.getMessage());
+            }
+        }
+    }
+
+    public void importRideHistory(String filename) {
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(filename));
+            String line;
+
+            System.out.println("Reading file: " + filename);
+            System.out.println("Visitor details from file:");
+            System.out.println("Name,Age,PhoneNum,IsMembership,VisitCount");
+
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+
+                String[] visitorData = line.split(",");
+                if (visitorData.length == 5) {
+                    String name = visitorData[0];
+                    int age = Integer.parseInt(visitorData[1]);
+                    String phoneNum = visitorData[2];
+                    boolean isMembership = Boolean.parseBoolean(visitorData[3]);
+                    int visitCount = Integer.parseInt(visitorData[4]);
+
+                    Visitor visitor = new Visitor(name, age, phoneNum, isMembership, visitCount);
+                    rideHistory.add(visitor);
+                } else {
+                    System.err.println("Error: Invalid line format in file: " + line);
+                }
+            }
+            System.out.println("Successfully imported ride history.");
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Error parsing number: " + e.getMessage());
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Error closing file: " + e.getMessage());
+            }
+        }
+    }
+
 }
 
 class VisitorComparator implements Comparator<Visitor> {
