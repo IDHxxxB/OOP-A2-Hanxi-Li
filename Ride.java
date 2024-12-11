@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.io.*;
 
+// Interface defining operations that a ride should support
 interface RideInterface {
     void addVisitorToQueue(Visitor visitor);
     void removeVisitorFromQueue(Visitor visitor);
@@ -16,20 +17,20 @@ interface RideInterface {
     void printRideHistory();
 }
 
+// Ride class implements RideInterface, which manages the ride's operations
 class Ride implements RideInterface {
+    // Instance variables rideName, operator, heightRestriction, maxRider, and numOfCycles
     private String rideName;
     private Employee operator;
     private String heightRestriction;
     private int maxRider;
     private int numOfCycles;
-
+    // Queue to manage the visitors waiting for the ride
     private Queue<Visitor> waitingQueue = new LinkedList<>();
+    // List to store the history of visitors who have ridden the ride
     private java.util.ArrayList<Visitor> rideHistory = new java.util.ArrayList<>();
 
-    public Ride() {
-
-    }
-
+    // Constructor to initialize a new ride with the provided details
     public Ride(String rideName, Employee operator, String heightRestriction, int maxRider, int numOfCycles) {
         if (maxRider < 1) {
             throw new IllegalArgumentException("maxRider must be at least 1.");
@@ -41,6 +42,7 @@ class Ride implements RideInterface {
         this.numOfCycles = numOfCycles;
     }
 
+    // Getter and setter methods for the ride's properties
     public String getRideName() {
         return rideName;
     }
@@ -81,6 +83,7 @@ class Ride implements RideInterface {
         this.numOfCycles = numOfCycles;
     }
 
+    // Adds a visitor to the queue
     @Override
     public void addVisitorToQueue(Visitor visitor) {
         if (visitor != null) {
@@ -91,6 +94,7 @@ class Ride implements RideInterface {
         }
     }
 
+    // Removes a visitor from the queue
     @Override
     public void removeVisitorFromQueue(Visitor visitor) {
         if (waitingQueue.remove(visitor)) {
@@ -100,6 +104,7 @@ class Ride implements RideInterface {
         }
     }
 
+    // Prints the names of visitors currently in the queue
     @Override
     public void printQueue() {
         System.out.println("Visitors in the waiting queue:");
@@ -108,6 +113,7 @@ class Ride implements RideInterface {
         }
     }
 
+    // Runs one cycle of the ride, allowing up to maxRider visitors to ride
     @Override
     public void runOneCycle() {
         if (operator == null) {
@@ -132,6 +138,7 @@ class Ride implements RideInterface {
         System.out.println(numOfCycles + " cycles were found.");
     }
 
+    // Adds a visitor to the ride history
     @Override
     public void addVisitorToHistory(Visitor visitor) {
         if (visitor != null) {
@@ -142,6 +149,7 @@ class Ride implements RideInterface {
         }
     }
 
+    // Checks if a visitor is present in the ride history
     @Override
     public boolean checkVisitorFromHistory(Visitor visitor) {
         boolean found = rideHistory.contains(visitor);
@@ -153,6 +161,7 @@ class Ride implements RideInterface {
         return found;
     }
 
+    // Returns the number of visitors who have ridden the ride
     @Override
     public int numberOfVisitors() {
         int size = rideHistory.size();
@@ -164,6 +173,7 @@ class Ride implements RideInterface {
         return size;
     }
 
+    // Prints the names of all visitors in the ride history
     @Override
     public void printRideHistory() {
         Iterator<Visitor> iterator = rideHistory.iterator();
@@ -174,11 +184,13 @@ class Ride implements RideInterface {
         }
     }
 
+    // Sorts the ride history based on visitor names and age
     public void sortRideHistory() {
         Collections.sort(rideHistory, new VisitorComparator());
         System.out.println("Successful sorting ride history.");
     }
 
+    // Exports the ride history to a file
     public void exportRideHistory(String filename) {
         BufferedWriter writer = null;
 
@@ -186,6 +198,7 @@ class Ride implements RideInterface {
             writer = new BufferedWriter(new FileWriter(filename));
 
             for (Visitor visitor : rideHistory) {
+                // Write visitor details to the file
                 String visitorDetails = visitor.getName() + "," + visitor.getAge() + ","
                         + visitor.getPhoneNum() + "," + visitor.getIsMembership() + ","
                         + visitor.getVisitCount();
@@ -198,7 +211,7 @@ class Ride implements RideInterface {
         } finally {
             try {
                 if (writer != null) {
-                    writer.close();
+                    writer.close();  // Close the file after writing
                 }
             } catch (IOException e) {
                 System.err.println("Error closing file: " + e.getMessage());
@@ -206,6 +219,7 @@ class Ride implements RideInterface {
         }
     }
 
+    // Imports the ride history from a file
     public void importRideHistory(String filename) {
         BufferedReader reader = null;
 
@@ -217,6 +231,7 @@ class Ride implements RideInterface {
             System.out.println("Visitor details from file:");
             System.out.println("Name,Age,PhoneNum,IsMembership,VisitCount");
 
+            // Read each line from the file and parse visitor details
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
 
@@ -244,7 +259,7 @@ class Ride implements RideInterface {
         } finally {
             try {
                 if (reader != null) {
-                    reader.close();
+                    reader.close();  // Close the file after reading
                 }
             } catch (IOException e) {
                 System.err.println("Error closing file: " + e.getMessage());
@@ -254,6 +269,7 @@ class Ride implements RideInterface {
 
 }
 
+// Comparator for sorting visitors by name and age
 class VisitorComparator implements Comparator<Visitor> {
     @Override
     public int compare(Visitor v1, Visitor v2) {
